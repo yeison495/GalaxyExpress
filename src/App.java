@@ -6,10 +6,8 @@ import java.util.Scanner;
 // simulador de viaje intergalactivo GalaxyExpress
 
 public class App {
-
     // variable scanner global
     static Scanner sc = new Scanner(System.in);
-
     // metodo principal
     public static void main(String[] args) throws Exception {
         // inicio de simulador        
@@ -130,14 +128,35 @@ public class App {
         } while (!ok || selection != 8);
     }
 
-    // metodo para seleccion y detalles de nave
+    // metodo para creacion mapa de naves
     public static Map<String, Integer> spaceshipMap() {
         // mapa de naves
         Map<String, Integer> spaceshipMap = new HashMap<>();
-        spaceshipMap.put("Mack I", 200);
-        spaceshipMap.put("Mack II", 140);
-        spaceshipMap.put("Mack III", 100);
+        spaceshipMap.put("Mack I", 150);
+        spaceshipMap.put("Mack II", 100);
+        spaceshipMap.put("Mack III", 50);
         return spaceshipMap;
+    }
+
+    // metodo para creacion mapa de eventos
+    public static Map<String, Integer> eventsMap() {
+        // mapa de naves
+        Map<String, Integer> eventsMap = new HashMap<>();
+        eventsMap.put("Sin eventualidades", 0);
+        eventsMap.put("Falla en la nave", 30);
+        eventsMap.put("Lluvia de asteroides", 50);
+        eventsMap.put("Tormenta solar", 100);
+        return eventsMap;
+    }
+
+    // metodo para creacion mapa de soluciones
+    public static Map<String, Integer> solutionMap() {
+        // mapa de naves
+        Map<String, Integer> solutionMap = new HashMap<>();
+        solutionMap.put("Mecanico", 15);
+        solutionMap.put("Desvio", 25);
+        solutionMap.put("Suicidio", 100);
+        return solutionMap;
     }
 
     // metodo para visualizar detalles de naves
@@ -170,9 +189,7 @@ public class App {
             } catch (Exception e) {
                 System.out.println("La opción debe ser numerica...");
                 sc.nextLine();
-            }
-            
-            
+            }                        
         } while (!ok || selection != 4);
     }
 
