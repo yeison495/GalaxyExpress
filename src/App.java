@@ -1,6 +1,6 @@
 
 // librerias importadas
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -77,7 +77,7 @@ public class App {
     // metodo creacion mapa de planetas
     public static Map<String, Integer> planetMap() {
         // mapa de planetas
-        Map<String, Integer> planetMap = new HashMap<>();
+        Map<String, Integer> planetMap = new LinkedHashMap<>();
         planetMap.put("Mercurio", 222);
         planetMap.put("Venus", 261);
         planetMap.put("Marte", 401);
@@ -142,7 +142,7 @@ public class App {
     // metodo para creacion mapa de naves
     public static Map<String, Integer> spaceshipMap() {
         // mapa de naves
-        Map<String, Integer> spaceshipMap = new HashMap<>();
+        Map<String, Integer> spaceshipMap = new LinkedHashMap<>();
         spaceshipMap.put("Mack I", 150);
         spaceshipMap.put("Mack II", 100);
         spaceshipMap.put("Mack III", 50);
@@ -152,7 +152,7 @@ public class App {
     // metodo para creacion mapa de eventos
     public static Map<String, Integer> eventsMap() {
         // mapa de naves
-        Map<String, Integer> eventsMap = new HashMap<>();
+        Map<String, Integer> eventsMap = new LinkedHashMap<>();
         eventsMap.put("Sin eventualidades", 0);
         eventsMap.put("Falla en la nave", 30);
         eventsMap.put("Lluvia de asteroides", 50);
@@ -163,7 +163,7 @@ public class App {
     // metodo para creacion mapa de soluciones
     public static Map<String, Integer> solutionMap() {
         // mapa de naves
-        Map<String, Integer> solutionMap = new HashMap<>();
+        Map<String, Integer> solutionMap = new LinkedHashMap<>();
         solutionMap.put("Reparar", 20);
         solutionMap.put("Desvio", 25);
         solutionMap.put("Esperar", 30);
@@ -210,7 +210,12 @@ public class App {
         var n = 0;
         System.out.println("-------------------------------------------");
         System.out.println("-GESTOR DE VIAJE-");
-        System.out.println(planet);
+        System.out.println("Bienvenido al gestor de viaje \nPara poder planificar su viaje por favor eliga la nave a utilizar: ");
+        var shipIndex = 1;
+        for (String spaceshipName : spaceship.keySet()) {
+            System.out.println(shipIndex + ". " + spaceshipName);
+            shipIndex++;
+        }
         System.out.println(spaceship);
         switch (n) {
             case 1 -> {
