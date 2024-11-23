@@ -27,27 +27,25 @@ public class App {
             try {
                 select = menu();
                 ok = true;
+                switch (select) {
+                    case 1 ->
+                        viewPlanet();
+                    case 2 ->
+                        viewSpaceship();
+                    case 3 ->
+                        managerTrip(pla, nav);
+                    case 4 ->
+                        System.out.println();
+                    case 5 ->
+                        System.out.println("\n*Al infinito y mas allá...BYE*\n");
+                    default ->
+                        System.out.println("\nSeleccion invalida\n");
+                }
             } catch (Exception e) {
                 System.out.println("La opción debe ser numerica...");
                 sc.nextLine();
             }
-        } while (!ok);
-
-        switch (select) {
-            case 1 ->
-                viewPlanet();
-            case 2 ->
-                viewSpaceship();
-            case 3 ->
-                managerTrip(pla, nav);
-            case 4 ->
-                System.out.println();
-            case 5 ->
-                System.out.println("\n*Al infinito y mas allá...BYE*\n");
-            default ->
-                System.out.println("\nSeleccion invalida\n");
-        }
-        System.out.println("*GEYELQUELOLEA*");
+        } while (!ok || select!=5);               
     }
 
     // metodo para menu principal
