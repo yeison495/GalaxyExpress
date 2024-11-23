@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class App {
     // variable scanner global
     static Scanner sc = new Scanner(System.in);
-    static boolean ok = false;
+    static boolean ok;
 
     // metodo principal
     public static void main(String[] args) throws Exception {
@@ -57,6 +57,7 @@ public class App {
     // metodo para menu principal
     public static Integer menu() {
         var selection = 0;
+        ok = false;
         // ciclo para la verificar errores
         do {
             System.out.println("\n-MENU-");
@@ -90,7 +91,7 @@ public class App {
 
     // metodo para visualizar detalles de planetas
     public static void viewPlanet() {
-        // variable scanner
+        ok = false;
         var selection = 0;
         System.out.println("-------------------------------------------");
         System.out.println("-DETALLES DE DESTINOS-");
@@ -127,7 +128,7 @@ public class App {
                     case 7 ->
                         System.out.println(
                                 "\nNeptuno:\nEs conocido por sus fuertes vientos y tormentas.\nDistancia= 4700mill Km");
-                    case 8 -> 
+                    case 8 ->
                         System.out.println("\nUsted ha seleccionado volver");
                     default ->
                         System.out.println("\nSeleccion invalida");
@@ -174,7 +175,7 @@ public class App {
     public static void viewSpaceship() {
         System.out.println("-------------------------------------------");
         System.out.println("-DETALLES DE NAVES-");
-        // variable scanner
+        ok = false;
         var selection = 0;
         // bucle de seleccion
         do {
@@ -204,26 +205,96 @@ public class App {
     }
 
     // metodo para gestionar viaje
-    public static Integer tripConfiguration(Map<String, Integer> pla, Map<String, Integer> nav) {
+    public static void tripConfiguration(Map<String, Integer> pla, Map<String, Integer> nav) {
         Map<String, Integer> planet = pla;
         Map<String, Integer> spaceship = nav;
-        var n = 0;
+        
         System.out.println("-------------------------------------------");
         System.out.println("-GESTOR DE VIAJE-");
-        System.out.println("Bienvenido al gestor de viaje \nPara poder planificar su viaje por favor eliga la nave a utilizar: ");
-        var shipIndex = 1;
-        for (String spaceshipName : spaceship.keySet()) {
-            System.out.println(shipIndex + ". " + spaceshipName);
-            shipIndex++;
-        }
-        System.out.println(spaceship);
-        switch (n) {
-            case 1 -> {
-            }
+        System.out.println("-------------------------------------------");
+        System.out.println("Bienvenido al gestor de viaje");
+        selectSpaceship(nav);
+    }
 
-            default -> {
+    // Metodo para elegir nave al configurar el viaje
+    public static void selectSpaceship(Map<String, Integer> nav){
+        Map<String, Integer> spaceship = nav;
+        var optionShip = 0;
+        String chosenSpaceship;
+        ok = false;
+        // Ciclo para repetir el menú si la opción es invalida
+        do {
+            try {
+                var shipIndex = 1;
+                for (String spaceshipName : spaceship.keySet()) {
+                    System.out.println(shipIndex + ". " + spaceshipName);
+                    shipIndex++;
+                }
+                System.out.print("Para poder planificar su viaje por favor eliga la nave a utilizar: ");
+                optionShip = sc.nextInt();
+                ok = true;
+            } catch (Exception e) {
+                sc.nextLine();
+                System.out.println("La opción es invalida...");
+                System.out.println("");
             }
+        } while (!ok);
+
+        // asignación de clave a la variable según la opción elegida
+        switch (optionShip) {
+            case 1 ->
+                chosenSpaceship = "Mack I";
+            case 2 ->
+                chosenSpaceship = "Mack II";
+            case 3 ->
+                chosenSpaceship = "Mack III";
+            default ->
+                System.out.println("\nSeleccion invalida");
         }
-        return 1;
+    }
+
+    // Metodo para elegir planeta al configurar el viaje
+    public static void selectPlanet(Map<String, Integer> pla){
+        Map<String, Integer> planet = pla;
+        var optionPlanet = 0;
+        String chosenPlanet;
+        ok = false;
+        // Ciclo para repetir el menú si la opción es invalida
+        do {
+            try {
+                var planetIndex = 1;
+                for (String planetName : planet.keySet()) {
+                    System.out.println(planetIndex + ". " + planetName);
+                    planetIndex++;
+                }
+                System.out.print("Para poder planificar su viaje por favor eliga el planeta: ");
+                optionPlanet = sc.nextInt();
+                ok = true;
+            } catch (Exception e) {
+                sc.nextLine();
+                System.out.println("La opción es invalida...");
+                System.out.println("");
+            }
+        } while (!ok);
+
+        // asignación de clave a la variable según la opción elegida
+        switch (optionPlanet) {
+            case 1 ->
+                chosenPlanet = "Mercurio";
+            case 2 ->
+                chosenPlanet = "Venus";
+            case 3 ->
+                chosenPlanet = "Marte";
+            case 4 ->
+                chosenPlanet = "Júpiter";
+            case 5 ->
+                chosenPlanet = "Saturno";
+            case 6 ->
+                chosenPlanet = "Urano";
+            case 7 ->
+                chosenPlanet = "Neptuno";
+            default ->
+                System.out.println("\nSeleccion invalida");
+        }
     }
 }
