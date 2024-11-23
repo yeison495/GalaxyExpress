@@ -1,3 +1,4 @@
+
 // librerias importadas
 import java.util.HashMap;
 import java.util.Map;
@@ -7,10 +8,11 @@ import java.util.Scanner;
 public class App {
     // variable scanner global
     static Scanner sc = new Scanner(System.in);
-    static boolean ok= false;
+    static boolean ok = false;
+
     // metodo principal
     public static void main(String[] args) throws Exception {
-        // inicio de simulador        
+        // inicio de simulador
         System.out.println("---------------------------------------------------------------");
         System.out.println("-----------------Bienvenido a Galaxy Express-------------------");
         System.out.println("---------------------------------------------------------------");
@@ -26,41 +28,36 @@ public class App {
         Map<String, Integer> sol = solutionMap();
 
         // variable de consumo de oxigeno en litros por dia para una persona
-        var oxConsPerDay= 550;
+        var oxConsPerDay = 550;
         // variable de consumo de combustible en litros por dia
-        var fuelConsPerDay= 60;
-        // ciclo para la verificar errores        
+        var fuelConsPerDay = 60;
+        // ciclo para la verificar errores
         do {
-            try {
-                select = menu();
-                ok = true;
-                switch (select) {
-                    case 1 ->
-                        viewPlanet();
-                    case 2 ->
-                        viewSpaceship();
-                    case 3 ->
-                        tripConfiguration(pla, nav);
-                    case 4 ->
-                        System.out.println();
-                    case 5 ->{
-                        System.out.println("\n*Al infinito y mas allá...BYE*\n");
-                        break;
-                        }                             
-                    default ->
-                        System.out.println("\nSeleccion invalida\n");
+            select = menu();
+
+            switch (select) {
+                case 1 ->
+                    viewPlanet();
+                case 2 ->
+                    viewSpaceship();
+                case 3 ->
+                    tripConfiguration(pla, nav);
+                case 4 ->
+                    System.out.println();
+                case 5 -> {
+                    System.out.println("\n*Al infinito y mas allá...BYE*\n");
+                    break;
                 }
-            } catch (Exception e) {
-                System.out.println("La opción debe ser numerica...");
-                sc.nextLine();
+                default ->
+                    System.out.println("\nSeleccion invalida\n");
             }
-        } while (!ok);
+        } while (select != 5);
     }
 
     // metodo para menu principal
     public static Integer menu() {
         var selection = 0;
-        // ciclo para la verificar errores        
+        // ciclo para la verificar errores
         do {
             System.out.println("\n-MENU-");
             System.out.println("\n1.Destinos\n2.Naves\n3.Gestionar Viaje\n4.Comenzar Viaje\n5.Salir\n");
@@ -97,11 +94,12 @@ public class App {
         var selection = 0;
         System.out.println("-------------------------------------------");
         System.out.println("-DETALLES DE DESTINOS-");
-        //bucle de seleccion 
+        // bucle de seleccion
         do {
             try {
                 System.out.println("-------------------------------------------");
-                System.out.println("\n1.Mercurio\n2.Venus\n3.Marte\n4.Júpiter\n5.Saturno\n6.Urano\n7.Neptuno\n8.Volver\n");
+                System.out.println(
+                        "\n1.Mercurio\n2.Venus\n3.Marte\n4.Júpiter\n5.Saturno\n6.Urano\n7.Neptuno\n8.Volver\n");
                 System.out.println("-------------------------------------------");
                 System.out.print("\nPor favor, seleccione un destino para saber mas detalles: ");
                 selection = sc.nextInt();
@@ -109,20 +107,27 @@ public class App {
                 // switch para eleccion de planeta
                 switch (selection) {
                     case 1 ->
-                        System.out.println("\nMercurio:\nEs el planeta más cercano al Sol y el más pequeño del sistema solar.\nDistancia= 222mill Km");
+                        System.out.println(
+                                "\nMercurio:\nEs el planeta más cercano al Sol y el más pequeño del sistema solar.\nDistancia= 222mill Km");
                     case 2 ->
-                        System.out.println("\nVenus:\nEs el planeta más caliente debido a su densa atmósfera de dióxido de carbono que genera un efecto invernadero extremo.\nDistancia= 261mill Km");
+                        System.out.println(
+                                "\nVenus:\nEs el planeta más caliente debido a su densa atmósfera de dióxido de carbono que genera un efecto invernadero extremo.\nDistancia= 261mill Km");
                     case 3 ->
-                        System.out.println("\nMarte:\nConocido como el \\\"planeta rojo\\\" por su superficie cubierta de óxido de hierro.\nDistancia= 401mill Km");
+                        System.out.println(
+                                "\nMarte:\nConocido como el \\\"planeta rojo\\\" por su superficie cubierta de óxido de hierro.\nDistancia= 401mill Km");
                     case 4 ->
-                        System.out.println("\nJúpiter:\nEs el planeta más grande del sistema solar y está compuesto mayormente de hidrógeno y helio.\nDistancia= 968mill Km");
+                        System.out.println(
+                                "\nJúpiter:\nEs el planeta más grande del sistema solar y está compuesto mayormente de hidrógeno y helio.\nDistancia= 968mill Km");
                     case 5 ->
-                        System.out.println("\nSaturno:\nFamoso por sus impresionantes anillos compuestos de hielo y roca.\nDistancia= 1660mill Km");
+                        System.out.println(
+                                "\nSaturno:\nFamoso por sus impresionantes anillos compuestos de hielo y roca.\nDistancia= 1660mill Km");
                     case 6 ->
-                        System.out.println("\nUrano:\nEs un gigante helado con una atmósfera de metano, lo que le da su característico color azul verdoso.\nDistancia= 3151mill Km");
+                        System.out.println(
+                                "\nUrano:\nEs un gigante helado con una atmósfera de metano, lo que le da su característico color azul verdoso.\nDistancia= 3151mill Km");
                     case 7 ->
-                        System.out.println("\nNeptuno:\nEs conocido por sus fuertes vientos y tormentas.\nDistancia= 4700mill Km");
-                    case 8 ->
+                        System.out.println(
+                                "\nNeptuno:\nEs conocido por sus fuertes vientos y tormentas.\nDistancia= 4700mill Km");
+                    case 8 -> 
                         System.out.println("\nUsted ha seleccionado volver");
                     default ->
                         System.out.println("\nSeleccion invalida");
@@ -171,7 +176,7 @@ public class App {
         System.out.println("-DETALLES DE NAVES-");
         // variable scanner
         var selection = 0;
-        //bucle de seleccion 
+        // bucle de seleccion
         do {
             try {
                 System.out.println("\n1.Mack I\n2.Mack II\n3.Mack III\n4.volver\n");
@@ -194,7 +199,7 @@ public class App {
             } catch (Exception e) {
                 System.out.println("La opción debe ser numerica...");
                 sc.nextLine();
-            }                        
+            }
         } while (!ok || selection != 4);
     }
 
@@ -202,7 +207,7 @@ public class App {
     public static Integer tripConfiguration(Map<String, Integer> pla, Map<String, Integer> nav) {
         Map<String, Integer> planet = pla;
         Map<String, Integer> spaceship = nav;
-        var n=0;
+        var n = 0;
         System.out.println("-------------------------------------------");
         System.out.println("-GESTOR DE VIAJE-");
         System.out.println(planet);
@@ -210,7 +215,7 @@ public class App {
         switch (n) {
             case 1 -> {
             }
-        
+
             default -> {
             }
         }
