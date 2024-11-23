@@ -16,6 +16,7 @@ public class App {
         System.out.println("---------------------------------------------------------------");
         System.out.println("-Su mejor opcion a la hora de realizar viajes interplanetarios-");
         System.out.println("---------------------------------------------------------------");
+
         // creacion e inicializacion de variables
         var select = 0;
         // creacion de mapas
@@ -26,7 +27,8 @@ public class App {
 
         // variable de consumo de oxigeno en litros por dia para una persona
         var oxConsPerDay= 550;
-        
+        // variable de consumo de combustible en litros por dia
+        var fuelConsPerDay= 60;
         // ciclo para la verificar errores        
         do {
             try {
@@ -38,11 +40,13 @@ public class App {
                     case 2 ->
                         viewSpaceship();
                     case 3 ->
-                        managerTrip(pla, nav);
+                        tripConfiguration(pla, nav);
                     case 4 ->
                         System.out.println();
-                    case 5 ->     
+                    case 5 ->{
                         System.out.println("\n*Al infinito y mas allá...BYE*\n");
+                        break;
+                        }                             
                     default ->
                         System.out.println("\nSeleccion invalida\n");
                 }
@@ -50,7 +54,7 @@ public class App {
                 System.out.println("La opción debe ser numerica...");
                 sc.nextLine();
             }
-        } while (!ok || select!=5);
+        } while (!ok);
     }
 
     // metodo para menu principal
@@ -127,7 +131,6 @@ public class App {
                 System.out.println("La opción debe ser numerica...");
                 sc.nextLine();
             }
-
         } while (!ok || selection != 8);
     }
 
@@ -156,9 +159,9 @@ public class App {
     public static Map<String, Integer> solutionMap() {
         // mapa de naves
         Map<String, Integer> solutionMap = new HashMap<>();
-        solutionMap.put("Mecanico", 15);
+        solutionMap.put("Reparar", 20);
         solutionMap.put("Desvio", 25);
-        solutionMap.put("Suicidio", 100);
+        solutionMap.put("Esperar", 30);
         return solutionMap;
     }
 
@@ -196,13 +199,21 @@ public class App {
     }
 
     // metodo para gestionar viaje
-    public static Integer managerTrip(Map<String, Integer> pla, Map<String, Integer> nav) {
+    public static Integer tripConfiguration(Map<String, Integer> pla, Map<String, Integer> nav) {
         Map<String, Integer> planet = pla;
         Map<String, Integer> spaceship = nav;
+        var n=0;
         System.out.println("-------------------------------------------");
         System.out.println("-GESTOR DE VIAJE-");
         System.out.println(planet);
         System.out.println(spaceship);
+        switch (n) {
+            case 1 -> {
+            }
+        
+            default -> {
+            }
+        }
         return 1;
     }
 }
