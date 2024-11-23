@@ -1,13 +1,13 @@
 // librerias importadas
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-// simulador de viaje intergalactivo GalaxyExpress
 
+// simulador de viaje intergalactivo GalaxyExpress
 public class App {
     // variable scanner global
     static Scanner sc = new Scanner(System.in);
+    static boolean ok= false;
     // metodo principal
     public static void main(String[] args) throws Exception {
         // inicio de simulador        
@@ -21,7 +21,12 @@ public class App {
         // creacion de mapas
         Map<String, Integer> pla = planetMap();
         Map<String, Integer> nav = spaceshipMap();
-        boolean ok = false;
+        Map<String, Integer> eve = eventsMap();
+        Map<String, Integer> sol = solutionMap();
+
+        // variable de consumo de oxigeno en litros por dia para una persona
+        var oxConsPerDay= 550;
+        
         // ciclo para la verificar errores        
         do {
             try {
@@ -36,7 +41,7 @@ public class App {
                         managerTrip(pla, nav);
                     case 4 ->
                         System.out.println();
-                    case 5 ->
+                    case 5 ->     
                         System.out.println("\n*Al infinito y mas allá...BYE*\n");
                     default ->
                         System.out.println("\nSeleccion invalida\n");
@@ -45,12 +50,11 @@ public class App {
                 System.out.println("La opción debe ser numerica...");
                 sc.nextLine();
             }
-        } while (!ok || select != 5);
+        } while (!ok || select!=5);
     }
 
     // metodo para menu principal
     public static Integer menu() {
-        boolean ok = false;
         var selection = 0;
         // ciclo para la verificar errores        
         do {
@@ -87,7 +91,6 @@ public class App {
     public static void viewPlanet() {
         // variable scanner
         var selection = 0;
-        boolean ok = false;
         System.out.println("-------------------------------------------");
         System.out.println("-DETALLES DE DESTINOS-");
         //bucle de seleccion 
@@ -165,7 +168,6 @@ public class App {
         System.out.println("-DETALLES DE NAVES-");
         // variable scanner
         var selection = 0;
-        boolean ok = false;
         //bucle de seleccion 
         do {
             try {
