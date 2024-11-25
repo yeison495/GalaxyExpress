@@ -9,6 +9,8 @@ public class App {
     // variable scanner global
     static Scanner sc = new Scanner(System.in);
     static boolean ok;
+    static String chosenSpaceship;
+    static String chosenPlanet;
 
     // metodo principal
     public static void main(String[] args) throws Exception {
@@ -214,13 +216,16 @@ public class App {
         System.out.println("-------------------------------------------");
         System.out.println("Bienvenido al gestor de viaje");
         selectSpaceship(nav);
+        selectPlanet(pla);
+        numberPeople(spaceship, chosenSpaceship);
+        
     }
 
     // Metodo para elegir nave al configurar el viaje
     public static void selectSpaceship(Map<String, Integer> nav){
         Map<String, Integer> spaceship = nav;
         var optionShip = 0;
-        String chosenSpaceship;
+        
         ok = false;
         // Ciclo para repetir el menú si la opción es invalida
         do {
@@ -257,7 +262,6 @@ public class App {
     public static void selectPlanet(Map<String, Integer> pla){
         Map<String, Integer> planet = pla;
         var optionPlanet = 0;
-        String chosenPlanet;
         ok = false;
         // Ciclo para repetir el menú si la opción es invalida
         do {
@@ -296,5 +300,35 @@ public class App {
             default ->
                 System.out.println("\nSeleccion invalida");
         }
+    }
+
+    // Metodo para elegir el número de personas según la nave seleccionada
+    public static void numberPeople(Map<String, Integer> spaceship, String nav){
+        Map<String, Integer> ships = spaceship;
+        String chosenSpaceship = nav;
+        var cantMax = 0;
+        var cantPeople = 0;
+        // Se define por nave la cantidad maxima del pasajeros 
+        if (nav.equals("Mack I")) {
+            cantMax = 2;
+        } else if (nav.equals("Mack II")) {
+            cantMax = 8;
+        } else {
+            cantMax = 14;
+        }
+        ok = false;
+        // Ciclo para repetir el menú si la opción es invalida
+        do {
+            try {
+                System.out.printf("Recuerde que la cantidad maxima de personas para la nave %S es de %d \n", nav, cantMax);
+                System.out.print("Para poder planificar su viaje por favor digite la cantidad de personas a viajar: ");
+                cantPeople = sc.nextInt();
+                ok = true;
+            } catch (Exception e) {
+                sc.nextLine();
+                System.out.println("La opción es invalida...");
+                System.out.println("");
+            }
+        } while (cantPeople <= 0 || cantPeople >= cantMax || !ok);
     }
 }
