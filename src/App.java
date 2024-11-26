@@ -9,8 +9,8 @@ public class App {
     // variable scanner global
     static Scanner sc = new Scanner(System.in);
     static boolean ok;
-    static String chosenSpaceship, chosenPlanet, eventRandomKey;
-    static double timeTravel, oxigenoTravel, fuelTravel;
+    static String chosenSpaceship, chosenPlanet, chosenSolution, eventRandomKey;
+    static double timeTravel, oxigenoTravel, fuelTravel, chosenReFill;
     static int eventRandomValue;
 
     // metodo principal
@@ -65,6 +65,7 @@ public class App {
             System.out.print("\nSeleccione su opcion de preferencia: \033[0m");
             try {
                 selection = sc.nextInt();
+                System.out.println("");
                 ok = true;
             } catch (Exception e) {
                 System.out.println("La opción debe ser numerica...");
@@ -164,9 +165,9 @@ public class App {
     public static Map<String, Integer> solutionMap() {
         // mapa de naves
         Map<String, Integer> solutionMap = new LinkedHashMap<>();
+        solutionMap.put("Reparar", 20);
         solutionMap.put("Esperar", 30);
         solutionMap.put("Desvio", 25);
-        solutionMap.put("Reparar", 20);
         return solutionMap;
     }
 
@@ -286,26 +287,27 @@ public class App {
                 optionShip = sc.nextInt();
                 System.out.println("-----------------------------------------------------------------------");
                 System.out.println("");
+                if (optionShip <= 0 || optionShip > 3) {
+                    throw new Exception("La opción elegida no es valida...");
+                }
+                // asignación de clave a la variable según la opción elegida
+                switch (optionShip) {
+                    case 1 ->
+                        chosenSpaceship = "Mack I";
+                    case 2 ->
+                        chosenSpaceship = "Mack II";
+                    case 3 ->
+                        chosenSpaceship = "Mack III";
+                }
                 ok = true;
             } catch (Exception e) {
                 sc.nextLine();
                 System.out.println("");
+                System.out.println(e);
                 System.out.println("La opción es invalida...");
                 System.out.println("");
             }
         } while (!ok);
-
-        // asignación de clave a la variable según la opción elegida
-        switch (optionShip) {
-            case 1 ->
-                chosenSpaceship = "Mack I";
-            case 2 ->
-                chosenSpaceship = "Mack II";
-            case 3 ->
-                chosenSpaceship = "Mack III";
-            default ->
-                System.out.println("\nSeleccion invalida");
-        }
     }
 
     // Metodo para elegir planeta al configurar el viaje
@@ -326,34 +328,35 @@ public class App {
                 optionPlanet = sc.nextInt();
                 System.out.println("-----------------------------------------------------------------------");
                 System.out.println("");
+                if (optionPlanet <= 0 || optionPlanet > 7) {
+                    throw new Exception("La opción elegida no es valida...");
+                }
+                // asignación de clave a la variable según la opción elegida
+                switch (optionPlanet) {
+                    case 1 ->
+                        chosenPlanet = "Mercurio";
+                    case 2 ->
+                        chosenPlanet = "Venus";
+                    case 3 ->
+                        chosenPlanet = "Marte";
+                    case 4 ->
+                        chosenPlanet = "Júpiter";
+                    case 5 ->
+                        chosenPlanet = "Saturno";
+                    case 6 ->
+                        chosenPlanet = "Urano";
+                    case 7 ->
+                        chosenPlanet = "Neptuno";
+                }
                 ok = true;
             } catch (Exception e) {
                 sc.nextLine();
                 System.out.println("");
+                System.out.println(e);
                 System.out.println("La opción es invalida...");
                 System.out.println("");
             }
         } while (!ok);
-
-        // asignación de clave a la variable según la opción elegida
-        switch (optionPlanet) {
-            case 1 ->
-                chosenPlanet = "Mercurio";
-            case 2 ->
-                chosenPlanet = "Venus";
-            case 3 ->
-                chosenPlanet = "Marte";
-            case 4 ->
-                chosenPlanet = "Júpiter";
-            case 5 ->
-                chosenPlanet = "Saturno";
-            case 6 ->
-                chosenPlanet = "Urano";
-            case 7 ->
-                chosenPlanet = "Neptuno";
-            default ->
-                System.out.println("\nSeleccion invalida");
-        }
     }
 
     // Metodo para elegir el número de personas según la nave seleccionada
@@ -398,7 +401,12 @@ public class App {
         Double timeT = timeTravel;
         Double oxigenoT = oxigenoTravel;
         Double fuelT = fuelTravel;
-        System.out.println(timeT + " " + oxigenoT + " " + fuelT);
+        Double timeTravelInProgress = 0.0;
+        Double oxigenoTravelInProgress = 0.0;
+        Double fuelTravelInProgress = 0.0;
+        int eventRandom = 0;
+        int soluEvent = 0;
+        int percetFinal;
 
         for (int percent = 0; percent <= 100; percent++) {
             // Crea una barra de progreso con 50 caracteres
@@ -408,10 +416,97 @@ public class App {
 
             // Sobrescribe la misma línea con el progreso
             System.out.print("\r\033[35m Iniciando => [" + bar + "] " + percent + "% \033[0m");
-            if (percent == 35) {
+            if (percent == 35) { // al 35% del viaje sucede un evento aleatorio
                 eventRandom(events);
-                eventSolution(solutions, eventRandomKey);
+                // valida si es "Sin eventualidades" continua su viaje
+                if (!eventRandomKey.equals("Sin eventualidades")) {
+                    eventSolution(solutions, eventRandomKey);
 
+                    // recorrer el mapa de eventos aleatorios para guardar procentaje de evento
+                    for (Map.Entry<String, Integer> eveRandom : events.entrySet()) {
+                        if (eveRandom.getKey().equals(eventRandomKey)) {
+                            eventRandom = eveRandom.getValue();
+                        }
+                    }
+
+                    // recorrer el mapa de soluciones para guardar procentaje de solución
+                    for (Map.Entry<String, Integer> eveSolu : solutions.entrySet()) {
+                        if (eveSolu.getKey().equals(chosenSolution)) {
+                            soluEvent = eveSolu.getValue();
+                        }
+                    }
+                    // calculo del porcetaje final a sumar al tiempo de viaje
+                    // %final = %evento aleatorio - %solucion al evento
+                    percetFinal = eventRandom - soluEvent;
+
+                    // gestión de valores inciales de tiempo del viaje, combustible y oxigeno
+                    // respecto al porcentaje final del evento
+                    timeTravelInProgress = ((timeT * percetFinal) / 100) + timeT;
+                    oxigenoTravelInProgress = oxigenoT - ((oxigenoT * percetFinal) / 100);
+                    fuelTravelInProgress = fuelT - ((fuelT * percetFinal) / 100);
+                } else {
+                    timeTravelInProgress = timeT;
+                    oxigenoTravelInProgress = oxigenoT;
+                    fuelTravelInProgress = fuelT;
+                }
+                
+            } else if (percent == 50) { // al 50% dle viaje es un punto de control
+                System.out.println("");
+                System.out.println("--------------------------------------------------");
+                System.out.println("Bienvenido al puesto de control");
+                System.out.println("--------------------------------------------------");
+                System.out.println("Verificando la cantidad de oxigeno y combustible...........");
+                System.out.println("");
+                var oxigenMedium = (oxigenoT * 50) / 100;
+                var fuelMedium = (fuelT * 50) / 100;
+                if (oxigenoTravelInProgress >= oxigenMedium && fuelTravelInProgress >= fuelMedium) {
+                    reFill();
+                    if (chosenReFill == 50) {
+                        oxigenoTravelInProgress = oxigenoTravelInProgress + ((oxigenoT * chosenReFill) / 100);
+                        fuelTravelInProgress = fuelTravelInProgress + ((fuelT * chosenReFill) / 100);
+                        System.out.println("Fue un gusto retanquear sus reservas, feliz viaje");
+                    }
+                    System.out.println("Continue su viaje....");
+                    System.out.println("");
+                } else {
+                    System.out.println(
+                    "\nDebemos informarle que lamentablemente su viaje no puede continuar \nlos niveles de oxigeno o combustibles estan por debajo del 50% del necesario para poder retanquear y continuar con el viaje");
+                    System.out.println("El viaje no se pudo completar");
+                    return;
+                }
+                
+            } else if (percent == 70) { // al 70% del viaje sucede un evento aleatorio
+                eventRandom(events);
+                // valida si es "Sin eventualidades" continua su viaje
+                if (!eventRandomKey.equals("Sin eventualidades")) {
+                    eventSolution(solutions, eventRandomKey);
+                    // recorrer el mapa de eventos aleatorios para guardar procentaje de evento
+                    for (Map.Entry<String, Integer> eveRandom : events.entrySet()) {
+                        if (eveRandom.getKey().equals(eventRandomKey)) {
+                            eventRandom = eveRandom.getValue();
+                        }
+                    }
+                    // recorrer el mapa de soluciones para guardar procentaje de solución
+                    for (Map.Entry<String, Integer> eveSolu : solutions.entrySet()) {
+                        if (eveSolu.getKey().equals(chosenSolution)) {
+                            soluEvent = eveSolu.getValue();
+                        }
+                    }
+                    // calculo del porcetaje final a sumar al tiempo de viaje
+                    // %final = %evento aleatorio - %solucion al evento
+                    percetFinal = eventRandom - soluEvent;
+                    // gestión de valores inciales de tiempo del viaje, combustible y oxigeno
+                    // respecto al porcentaje final del evento
+                    timeTravelInProgress = ((timeTravelInProgress * percetFinal) / 100) + timeTravelInProgress;
+                    oxigenoTravelInProgress = oxigenoTravelInProgress - ((oxigenoTravelInProgress * percetFinal) / 100);
+                    fuelTravelInProgress = fuelTravelInProgress - ((fuelTravelInProgress * percetFinal) / 100);
+                }
+            }else if (percent == 100) {
+                if (oxigenoTravelInProgress >= oxigenoT && fuelTravelInProgress >= fuelT) {
+                    System.out.println("\n\nFelicidades a llegado a su destino con exito!...");
+                } else{
+                    System.out.println("\n\nRIP... Es posible que la nave tuvo contratiempos.");
+                }
             }
 
             // Espera 0.1 segundo antes de la siguiente actualización
@@ -421,10 +516,6 @@ public class App {
                 System.out.println("Error en la pausa del hilo: " + e.getMessage());
             }
         }
-
-        // Salto de línea al finalizar
-        System.out.println("\n¡Proceso completado!");
-
     }
 
     // metodo para mostrar el evento aleatorio
@@ -483,14 +574,73 @@ public class App {
                     optionSolution = sc.nextInt();
                     System.out.println("-----------------------------------------------------------------------");
                     System.out.println("");
+                    if (chosenEvent.equals("Falla en la nave")) {
+                        if (optionSolution >= 3 || optionSolution <= 0) {
+                            throw new Exception("La opción elegida no es valida para el evento actual");
+                        }
+                    } else if (chosenEvent.equals("Lluvia de asteroides") || chosenEvent.equals("Tormenta solar")) {
+                        if (optionSolution > 3 || optionSolution <= 1) {
+                            throw new Exception("La opción elegida no es valida para el evento actual");
+                        }
+                    }
                     ok = true;
                 } catch (Exception e) {
                     sc.nextLine();
                     System.out.println("");
+                    System.out.println(e);
                     System.out.println("La opción es invalida...");
                     System.out.println("");
                 }
             } while (!ok);
+
+            // asignación de clave a la variable según la opción elegida
+            switch (optionSolution) {
+                case 1 ->
+                    chosenSolution = "Reparar";
+                case 2 ->
+                    chosenSolution = "Esperar";
+                case 3 ->
+                    chosenSolution = "Desvio";
+                default ->
+                    System.out.println("\nSeleccion invalida");
+            }
         }
+
+    }
+
+    // metodo para validar si tanquea en el 50% del viaje
+    public static void reFill() {
+        var optionF = 0;
+        ok = false;
+        // Ciclo para repetir el menú si la opción es invalida
+        do {
+            try {
+                System.out.println("Recuerde que solo se le permite recargar el 50% del oxigeno y combustible inicial");
+                System.out.println("1. SI");
+                System.out.println("2. NO");
+                System.out.println("-----------------------------------------------------------------------");
+                System.out.print("Por favor eliga si desea recargar combustible y oxigeno: ");
+                optionF = sc.nextInt();
+                System.out.println("-----------------------------------------------------------------------");
+                System.out.println("");
+                if (optionF <= 0 || optionF > 2) {
+                    throw new Exception("La opción elegida no es valida...");
+                }
+                // asignación de clave a la variable según la opción elegida
+                switch (optionF) {
+                    case 1 ->
+                        chosenReFill = 50;
+                    case 2 ->
+                        chosenReFill = 0;
+                }
+                ok = true;
+            } catch (Exception e) {
+                sc.nextLine();
+                System.out.println("");
+                System.out.println(e);
+                System.out.println("La opción es invalida...");
+                System.out.println("");
+            }
+        } while (!ok);
     }
 }
