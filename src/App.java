@@ -361,8 +361,6 @@ public class App {
 
     // Metodo para elegir el número de personas según la nave seleccionada
     public static int numberPeople(Map<String, Integer> spaceship, String nav) {
-        Map<String, Integer> ships = spaceship;
-        String chosenSpaceship = nav;
         var cantMax = 0;
         var cantPeople = 0;
         // Se define por nave la cantidad maxima del pasajeros
