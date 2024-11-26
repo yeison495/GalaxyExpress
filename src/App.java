@@ -15,11 +15,11 @@ public class App {
     // metodo principal
     public static void main(String[] args) throws Exception {
         // inicio de simulador
-        System.out.println("---------------------------------------------------------------");
+        System.out.println("\033[31m---------------------------------------------------------------");
         System.out.println("-----------------Bienvenido a Galaxy Express-------------------");
         System.out.println("---------------------------------------------------------------");
         System.out.println("-Su mejor opcion a la hora de realizar viajes interplanetarios-");
-        System.out.println("---------------------------------------------------------------");
+        System.out.println("---------------------------------------------------------------\033[0m");
 
         // creacion e inicializacion de variables
         var select = 0;
@@ -29,10 +29,6 @@ public class App {
         Map<String, Integer> eve = eventsMap();
         Map<String, Integer> sol = solutionMap();
 
-        // variable de consumo de oxigeno en litros por dia para una persona
-        var oxConsPerDay = 550;
-        // variable de consumo de combustible en litros por dia
-        var fuelConsPerDay = 60;
         // ciclo para la verificar errores
         do {
             select = menu();
@@ -62,10 +58,10 @@ public class App {
         ok = false;
         // ciclo para la verificar errores
         do {
-            System.out.println("\n-MENU-");
+            System.out.println("\n\033[32m-MENU-");
             System.out.println("\n1.Destinos\n2.Naves\n3.Gestionar Viaje\n4.Comenzar Viaje\n5.Salir\n");
             System.out.println("-------------------------------------------");
-            System.out.print("\nSeleccione su opcion de preferencia: ");
+            System.out.print("\nSeleccione su opcion de preferencia: \033[0m");
             try {
                 selection = sc.nextInt();
                 ok = true;
@@ -210,15 +206,60 @@ public class App {
     public static void tripConfiguration(Map<String, Integer> pla, Map<String, Integer> nav) {
         Map<String, Integer> planet = pla;
         Map<String, Integer> spaceship = nav;
-        
+        var distance = 0;
+        var speed = 0;
+        double timeTravel, oxigenoTravel, fuelTravel;
+        var cantPeople = 0;
+        // variable de consumo de oxigeno en litros por dia para una persona
+        var oxConsPerDay = 550;
+        // variable de consumo de combustible en litros por dia
+        var fuelConsPerDay = 60;
+
+        System.out.println("");
         System.out.println("-------------------------------------------");
         System.out.println("-GESTOR DE VIAJE-");
         System.out.println("-------------------------------------------");
         System.out.println("Bienvenido al gestor de viaje");
+        System.out.println("");
         selectSpaceship(nav);
         selectPlanet(pla);
-        numberPeople(spaceship, chosenSpaceship);
+        cantPeople = numberPeople(spaceship, chosenSpaceship);
         
+        // recorrer el mapa de planetas para encontrar la distancia según el planeta elegido
+        for (Map.Entry<String, Integer> planetDistance : planet.entrySet()) {
+            if (planetDistance.getKey().equals(chosenPlanet)) {
+                distance = planetDistance.getValue();
+            }
+        }
+
+        // recorrer el mapa de naves para encontrar la velocidad según la nave elegida
+        for (Map.Entry<String, Integer> spaceshipSpeed : spaceship.entrySet()) {
+            if (spaceshipSpeed.getKey().equals(chosenSpaceship)) {
+                speed = spaceshipSpeed.getValue();
+            }
+        }
+
+        // calculo del tiempo de duración del viaje configurado
+        timeTravel = (double)distance/(double)speed;
+        
+        // calculo de oxigeno según la cantidad de personas para el viaje configurado
+        oxigenoTravel = (oxConsPerDay*cantPeople)*timeTravel;
+
+        // calculo de combustible para el viaje configurado
+        fuelTravel = fuelConsPerDay*timeTravel;
+
+        // mostrar información del viaje configurado
+        System.out.println("");
+        System.out.println("-----------------------------------------------------------------------");
+        System.out.println("Felicidades....");
+        System.out.println("Configuración del viaje completada");
+        System.out.println("-----------------------------------------------------------------------");
+        System.out.printf("El planeta destino es: %s\n", chosenPlanet);
+        System.out.printf("La nave de preferencia es: %s\n", chosenSpaceship);
+        System.out.printf("Su viaje tendra un estimado de %.2f días\n", timeTravel);
+        System.out.printf("La cantidad de combustible para su viaje es de %.2f litros y el oxigeno %.2f litros\n", fuelTravel, oxigenoTravel);
+        System.out.println("-----------------------------------------------------------------------");
+        System.out.println("");
     }
 
     // Metodo para elegir nave al configurar el viaje
@@ -235,11 +276,15 @@ public class App {
                     System.out.println(shipIndex + ". " + spaceshipName);
                     shipIndex++;
                 }
+                System.out.println("-----------------------------------------------------------------------");
                 System.out.print("Para poder planificar su viaje por favor eliga la nave a utilizar: ");
                 optionShip = sc.nextInt();
+                System.out.println("-----------------------------------------------------------------------");
+                System.out.println("");
                 ok = true;
             } catch (Exception e) {
                 sc.nextLine();
+                System.out.println("");
                 System.out.println("La opción es invalida...");
                 System.out.println("");
             }
@@ -271,11 +316,15 @@ public class App {
                     System.out.println(planetIndex + ". " + planetName);
                     planetIndex++;
                 }
+                System.out.println("-----------------------------------------------------------------------");
                 System.out.print("Para poder planificar su viaje por favor eliga el planeta: ");
                 optionPlanet = sc.nextInt();
+                System.out.println("-----------------------------------------------------------------------");
+                System.out.println("");
                 ok = true;
             } catch (Exception e) {
                 sc.nextLine();
+                System.out.println("");
                 System.out.println("La opción es invalida...");
                 System.out.println("");
             }
@@ -303,7 +352,7 @@ public class App {
     }
 
     // Metodo para elegir el número de personas según la nave seleccionada
-    public static void numberPeople(Map<String, Integer> spaceship, String nav){
+    public static int numberPeople(Map<String, Integer> spaceship, String nav){
         Map<String, Integer> ships = spaceship;
         String chosenSpaceship = nav;
         var cantMax = 0;
@@ -320,15 +369,19 @@ public class App {
         // Ciclo para repetir el menú si la opción es invalida
         do {
             try {
+                System.out.println("-----------------------------------------------------------------------");
                 System.out.printf("Recuerde que la cantidad maxima de personas para la nave %S es de %d \n", nav, cantMax);
                 System.out.print("Para poder planificar su viaje por favor digite la cantidad de personas a viajar: ");
                 cantPeople = sc.nextInt();
                 ok = true;
             } catch (Exception e) {
                 sc.nextLine();
+                System.out.println("");
                 System.out.println("La opción es invalida...");
                 System.out.println("");
             }
-        } while (cantPeople <= 0 || cantPeople >= cantMax || !ok);
+        } while (cantPeople <= 0 || cantPeople > cantMax || !ok);
+
+        return cantPeople;
     }
 }
